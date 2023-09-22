@@ -5,7 +5,7 @@ import re
 app = Flask(__name__)
 
 # Set your OpenAI API key
-api_key = "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"
+api_key = "YOUR_OPENAI_KEY"
 openai.api_key = api_key
 
 # Create a list to store conversation history
@@ -22,7 +22,7 @@ def ask_god():
     # Use OpenAI's API to generate a response based on user input
     response = openai.Completion.create(
         engine="text-davinci-003",
-        prompt=f"Form a response to the following as God in AI form: {user_input}",
+        prompt=f"YOUR PROMPT: {user_input}",
         max_tokens=150
     )
 
