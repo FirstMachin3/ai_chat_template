@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Google tag (gtag.js) goes here-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+    <title>YOUR PAGE TITLE</title>
+</head>
+<body>
+    <!-- WebGL Animation Container -->
+    <div id="animation-container">
+        <canvas id="webgl-canvas"></canvas>
+
+        <!-- vertexShader -->
+        <script id="js-vertex-shader" type="x-shader/x-vertex">
+            attribute vec3 position;
+
+            void main() {
+                gl_Position = vec4(position, 1.0);
+            }
+        </script>
+
+        <!-- fragmentShader -->
+        <script id="js-fragment-shader" type="x-shader/x-fragment">
+            precision highp float;
+            uniform vec2 resolution;
+            uniform float time;
+            uniform float xScale;
+            uniform float yScale;
+            uniform float distortion;
+
+            void main() {
+                vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+
+                float d = length(p) * distortion;
+
+                float rx = p.x * (1.0 + d);
+                float gx = p.x;
+                float bx = p.x * (1.0 - d);
+
+                float r = 0.05 / abs(p.y + sin((rx + time) * xScale) * yScale);
+                float g = 0.05 / abs(p.y + sin((gx + time) * xScale) * yScale);
+                float b = 0.05 / abs(p.y + sin((bx + time) * xScale) * yScale);
+
+                gl_FragColor = vec4(r, g, b, 1.0);
+            }
+        </script>
+    </div>
+
+    <div class="container">
+        <header>
+            <button id="clear-history" class="clear-button">Clear History</button>
+            
+        </header>
+        <main>
+            <div class="conversation-history" id="conversation-history">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            <div class="user-input-container">
+                <input type="text" id="user-input" placeholder="YOUR INPUTBOX HINT HERE">
+                <div id="send-button" class="send-button">&#8658;</div> <!-- &#9658; is the right-pointing triangle character -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Include JavaScript for WebGL Animation -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
