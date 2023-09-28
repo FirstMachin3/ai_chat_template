@@ -1,10 +1,9 @@
 # AI Chatbot Template
 
 <p align="center">
-  <img src="./preview.gif">
+  <img src="./preview.png">
 </p>
 
-GodAI
 
 ## Description
 
